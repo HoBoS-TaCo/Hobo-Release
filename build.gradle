@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+group = 'com.github.hobos_taco.hoborelease'
+version = '1.1'
+archivesBaseName = 'HoboRelease'
+targetCompatibility = '1.6'
+sourceCompatibility = '1.6'
+
+repositories {
+  mavenCentral()
+  maven {
+    name = "dayz"
+    url = "http://maven.dayzminecraft.x10.mx/"
+  }
+}
+
+jar {
+  manifest {
+    attributes 'version':project.version, 'javaCompliance': project.targetCompatibility
+    attributes 'group':project.group
+  }
+}
+
+configurations {
+  deployerJars
+}
+
+dependencies {
+  compile gradleApi()
+  compile 'com.github.hobos_taco.githobo:githobo:0.4' //For Github
+  compile 'commons-net:commons-net:3.3' //For FTP
+  deployerJars "org.apache.maven.wagon:wagon-ftp:2.2" //For maven
+}
+
+artifacts {
+  archives jar
+}
+
+task wrapper(type: Wrapper) { 
+  gradleVersion = '1.9' 
+}
